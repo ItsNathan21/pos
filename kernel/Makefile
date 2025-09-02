@@ -71,7 +71,8 @@ iso: all
 # Run in QEMU
 run: iso
 	@echo "[QEMU] Booting..."
-	qemu-system-i386 -cdrom $(ISO_FILE) -m 512M -S -s
+	qemu-system-i386 -cdrom $(ISO_FILE) -m 512M -S -s &
+	gdb-multiarch -x ../init.gdb
 
 # Clean everything
 clean:
