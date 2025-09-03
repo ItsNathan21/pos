@@ -1,3 +1,6 @@
-src/
+/src/
 tools/
 build/
+kernel/obj/
+*.iso
+*.o

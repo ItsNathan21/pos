@@ -20,15 +20,12 @@ _stack_top:
 .global _start 
 .type _start, @function 
 _start:
-    cmp $0x2badb002, %eax
-    jne _hang
+
     push %ebx
     push %eax
     call kmain
 
-_hang:    
-    mov %eax, %edi
-    call shitballs
+    hlt 
     jmp .
 
 .size _start, . - _start
