@@ -1,9 +1,9 @@
 
-ENTRY(_start)
+ENTRY(mbentry)
 
 SECTIONS
 {
-	. = 2M;
+	. = 1M;
 
 	.text BLOCK(4K) : ALIGN(4K)
 	{
@@ -26,7 +26,9 @@ SECTIONS
 	/* Read-write data (uninitialized) and stack */
 	.bss BLOCK(4K) : ALIGN(4K)
 	{
+		_bss_start = .;
 		*(COMMON)
 		*(.bss)
+		_bss_end = .;
 	}
 }

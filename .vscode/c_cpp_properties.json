@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "i686-elf Kernel",
+            "includePath": [
+                "${workspaceFolder}/kern/arch32/inc",
+                "${env:HOME}/opt/cross/lib/gcc/i686-elf/14.2.0/include",
+                "${env:HOME}/opt/cross/lib/gcc/i686-elf/14.2.0/include-fixed"
+            ],
+            "defines": [
+                "__i386__"
+            ],
+            "compilerPath": "${env:HOME}/opt/cross/bin/i686-elf-gcc",
+            "compilerArgs": [
+                "-ffreestanding",
+                "-nostdinc",
+                "-m32"
+            ],
+            "cStandard": "gnu11",
+            "intelliSenseMode": "gcc-x86",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/kern"
+                ]
+            }
+        }
+    ],
+    "version": 4
+}
