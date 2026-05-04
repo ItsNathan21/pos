@@ -1,2 +1,2 @@
 # pos
-i686 os using GRUB bootloader
+operate sytem

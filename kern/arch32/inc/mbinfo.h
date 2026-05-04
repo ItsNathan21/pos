@@ -41,6 +41,21 @@
 #define FRAMEBUFFER (1u << 12)
 
 /**
+ * @brief structure pointed to by the
+ * mmap field in the multiboot structure.
+ *
+ * Indicates a memory mapped region the BIOS
+ * gave us, thanks, BIOS!
+ */
+typedef struct
+{
+    uint32_t size;
+    uint64_t base_addr;
+    uint64_t length;
+    uint32_t type;
+} __attribute__((packed)) mmap_info_t;
+
+/**
  * @brief Structure returned by the bootloader in
  * %ebx given to the kernel in 32-bit protected mode,
  * for the kernel to have fun with in whichever way
@@ -64,7 +79,7 @@ typedef struct
     uint32_t cmdline;
     uint32_t mods_count;
     uint32_t mods_addr;
-    uint32_t syms;
+    uint32_t syms[4];
     uint32_t mmap_length;
     uint32_t mmap_addr;
     uint32_t drives_length;

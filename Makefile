@@ -85,7 +85,7 @@ iso: all
 #     Expects an init.gdb in the same directory as this Makefile.
 run: iso
 	@echo "[QEMU] Starting — GDB stub on :1234"
-	qemu-system-i386 -cdrom $(ISO_FILE) -m 512M -S -s &
+	qemu-system-i386 -cdrom $(ISO_FILE) -m 2G -S -s &
 	gdb-multiarch -x init.gdb
  
 # --- Clean build artifacts (keeps source tree intact) ---

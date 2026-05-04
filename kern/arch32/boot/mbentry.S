@@ -36,7 +36,10 @@ _k_init_stack_top:
     .section .text
     .global mbentry 
 mbentry:
-    mbentry:
+
+    movl %eax, %esi # store the magic number multiboot gave us 
+                    # for proper boot checking, to use as soon as we're ready
+
     movl $_k_init_stack_top, %esp
 
     /* zero .bss — symbols provided by linker script */
@@ -48,8 +51,8 @@ mbentry:
     cld
     rep  stosb               /* zero fill */
 
-    push %ebx
-    push %eax
+    push %ebx # multiboot information structure pointer 
+    push %esi # magic_number
     call kernel_setup
     hlt
     jmp  .
