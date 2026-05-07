@@ -12,6 +12,7 @@
 #include <console.h>
 #include <bits.h>
 #include <kprintf.h>
+#include <string.h>
 
 #define MBOOT_MAGIC_NUMBER (0x2BADB002)
 

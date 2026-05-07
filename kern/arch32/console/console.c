@@ -77,6 +77,7 @@ static console_info_t vga_info =
 #define CRTC_IDX_CURSOR_HIGH (0xE)
 #define CRTC_SCANLINE_START (0xA)
 #define CRTC_SCANLINE_END (0xB)
+#define CRTC_CURSOR_DISABLED (0x20)
 
 /**
  * @brief given a character and color, returns a vga cell
@@ -187,11 +188,13 @@ void console_putc(char c)
     if (vga_info.col >= CONSOLE_WIDTH)
     {
         vga_info.col = 0;
-        if (++vga_info.row >= CONSOLE_HEIGHT)
-        {
-            vga_info.row = CONSOLE_HEIGHT - 1;
-            shift_screen_down();
-        }
+        vga_info.row++;
+    }
+
+    if (vga_info.row >= CONSOLE_HEIGHT)
+    {
+        vga_info.row = CONSOLE_HEIGHT - 1;
+        shift_screen_down();
     }
 
     update_physical_cursor(vga_info.row, vga_info.col);
@@ -244,7 +247,8 @@ void console_get_cursor(int *row, int *col)
  */
 void console_hide_cursor(void)
 {
-    update_physical_cursor(CONSOLE_WIDTH, CONSOLE_HEIGHT);
+    outb(CRTC_IDX_PORT, CRTC_SCANLINE_START);
+    outb(CRTC_DATA_PORT, CRTC_CURSOR_DISABLED);
 
     vga_info.cursor_visible = 0;
 }
@@ -282,7 +286,7 @@ void console_show_cursor(void)
 char console_getchar(int row, int col)
 {
     vga_char_cell_t *cell =
-        (vga_char_cell_t *)(((row * CONSOLE_WIDTH) + col) * sizeof(vga_char_cell_t));
+        (vga_char_cell_t *)(VGA_BASE + ((row * CONSOLE_WIDTH) + col) * sizeof(vga_char_cell_t));
 
     return cell->c;
 }
