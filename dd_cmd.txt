@@ -1,1 +1,1 @@
-sudo dd if=pOS.iso of=/dev/sdX bs=4M status=progress oflag=sync
+sudo dd if=pOS.iso of=/dev/sdXXXXX bs=4M status=progress oflag=sync

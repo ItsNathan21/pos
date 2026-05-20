@@ -105,6 +105,25 @@ static void display_mmap_information(mbinfo_t *info)
  */
 void kernel_setup(uint32_t magic_number, mbinfo_t *info)
 {
+    /*
+        Giant list of things to do before handing
+        off the system to user mode.
+
+        Set up the GDT
+
+        Set up the TSS
+
+        Set up the PIC for keyboard and timer interrupts
+
+        Install keyboard, timer, and syscall interrupts
+
+        Initialize the console ---> DONE
+
+        Initialize VM
+        Initialize the init and idle tasks
+
+    */
+
     console_show_cursor();
     clear_console();
     console_set_color(FGND_GREEN | BGND_BLACK);

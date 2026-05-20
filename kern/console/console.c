@@ -13,7 +13,8 @@
  *
  */
 
-#include <console.h>
+#include "console.h"
+
 #include <stdint.h>
 #include <string.h>
 #include <x86_asm.h>
