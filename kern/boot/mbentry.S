@@ -37,6 +37,8 @@ _k_init_stack_top:
     .global mbentry 
 mbentry:
 
+    cli
+
     movl %eax, %esi # store the magic number multiboot gave us 
                     # for proper boot checking, to use as soon as we're ready
 

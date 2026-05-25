@@ -3,6 +3,7 @@
         {
             "name": "i686-elf Kernel",
             "includePath": [
+		"${workspaceFolder}/kern/**",
                 "${workspaceFolder}/kern/arch32/inc",
                 "${env:HOME}/opt/cross/lib/gcc/i686-elf/14.2.0/include",
                 "${env:HOME}/opt/cross/lib/gcc/i686-elf/14.2.0/include-fixed"

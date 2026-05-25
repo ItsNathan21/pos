@@ -21,3 +21,25 @@ inb:
     in %dx, %al # byte in from port to %al 
     ret 
 
+    .global enable_interrupts
+enable_interrupts:
+    sti 
+    ret
+
+    .global disable_interrupts 
+disable_interrupts:
+    cli 
+    ret
+
+    .global store_eflags
+store_eflags:
+    pushl %eax # push the new flags 
+    popfl # pop them into eflags 
+    ret
+
+    .global get_eflags 
+get_eflags: 
+    pushfl # push the current flags 
+    popl %eax # pop them into eax for return
+    ret 
+

@@ -13,6 +13,10 @@
 #include <bits.h>
 #include <kprintf.h>
 #include <string.h>
+#include <gdt.h>
+#include <pic.h>
+#include <x86_asm.h>
+#include <idt.h>
 
 #define MBOOT_MAGIC_NUMBER (0x2BADB002)
 
@@ -90,6 +94,18 @@ static void display_mmap_information(mbinfo_t *info)
     kprintf("------------------\n");
 }
 
+void local_timer_tickback(void)
+{
+    static int ticks = 0;
+
+    ++ticks;
+
+    if (ticks % 500 == 0)
+    {
+        kprintf("%d seconds have passed\n", ticks / 500);
+    }
+}
+
 /**
  * @brief
  *
@@ -109,18 +125,21 @@ void kernel_setup(uint32_t magic_number, mbinfo_t *info)
         Giant list of things to do before handing
         off the system to user mode.
 
-        Set up the GDT
+        Set up the GDT ---> DONE
 
-        Set up the TSS
+        Set up the TSS ---> DONE
 
-        Set up the PIC for keyboard and timer interrupts
+        Set up the PIC for keyboard and timer interrupts ---> DONE
 
         Install keyboard, timer, and syscall interrupts
 
         Initialize the console ---> DONE
 
         Initialize VM
+
         Initialize the init and idle tasks
+
+        Jump into init task
 
     */
 
@@ -143,6 +162,24 @@ void kernel_setup(uint32_t magic_number, mbinfo_t *info)
         kprintf("mmap field is valid\n");
         display_mmap_information(info);
     }
+
+    initialize_and_load_gdt();
+
+    kprintf("initialized GDT and TSS\n");
+
+    pic_remap();
+
+    kprintf("remapped the PIC...\n");
+
+    idt_initialize();
+
+    kprintf("initialized IDT with non-present entries\n");
+
+    idt_install_hardware_handlers((uint32_t)local_timer_tickback);
+
+    kprintf("Installed hardware handlers...\n");
+
+    enable_interrupts();
 
     kprintf("Spinning forever...\n");
 

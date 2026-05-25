@@ -20,4 +20,10 @@
  */
 #define GETBIT(X, N) (((X) & (1u << (N))))
 
+/**
+ * @def gets the N'th 16 bit word from the number X
+ *
+ */
+#define GET_16BIT_WORD(X, N) ((uint16_t)(((X) >> ((N) * 16)) & 0xffff))
+
 #endif /* _BITS_H_ */

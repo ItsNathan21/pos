@@ -11,7 +11,9 @@ CFLAGS  := -ffreestanding -std=gnu11 -O0 -Wall -Wextra -m32 \
             -nostdinc \
             $(addprefix -I, $(INC_DIRS)) \
             -I $(shell $(CC) -print-file-name=include) \
-            -g
+			-MMD -MP \
+            -g \
+			-DDEBUG # in debug mode always, take away for booting on hardware
 ASFLAGS := -m32
 LDFLAGS := -T linker.ld -nostdlib -z noexecstack
  
@@ -78,3 +80,5 @@ run: iso
 clean:
 	@echo "[CLEAN] Removing obj/, isodir/, $(ISO_FILE)"
 	rm -rf $(OBJ_DIR) $(ISO_DIR) $(ISO_FILE)
+
+-include $(OBJS:.o=.d)
