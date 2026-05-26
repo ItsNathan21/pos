@@ -224,6 +224,7 @@ void console_set_cursor(int row, int col)
 {
     vga_info.row = row;
     vga_info.col = col;
+    update_physical_cursor(row, col);
 }
 
 /**
@@ -266,10 +267,10 @@ void console_show_cursor(void)
         scanline registers.
     */
     outb(CRTC_IDX_PORT, CRTC_SCANLINE_START);
-    outb(CRTC_DATA_PORT, 0x00);
+    outb(CRTC_DATA_PORT, (1 << 6) | 0x00);
 
     outb(CRTC_IDX_PORT, CRTC_SCANLINE_END);
-    outb(CRTC_DATA_PORT, 0x0F);
+    outb(CRTC_DATA_PORT, (1 << 6) | 0x0f);
 
     vga_info.cursor_visible = 1;
 
@@ -313,4 +314,6 @@ void clear_console(void)
 
     vga_info.col = 0;
     vga_info.row = 0;
+
+    update_physical_cursor(0, 0);
 }

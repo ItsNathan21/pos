@@ -26,7 +26,7 @@
 
 #else
 
-#define affirm(exp) (void(0))
+#define affirm(exp) (exp)
 
 #endif /* DEBUG */
 

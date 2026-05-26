@@ -17,6 +17,7 @@
 #include <pic.h>
 #include <x86_asm.h>
 #include <idt.h>
+#include <keyboard.h>
 
 #define MBOOT_MAGIC_NUMBER (0x2BADB002)
 
@@ -102,7 +103,11 @@ void local_timer_tickback(void)
 
     if (ticks % 500 == 0)
     {
+        int saved_row, saved_col;
+        console_get_cursor(&saved_row, &saved_col);
+        console_set_cursor(0, CONSOLE_WIDTH / 2);
         kprintf("%d seconds have passed\n", ticks / 500);
+        console_set_cursor(saved_row, saved_col);
     }
 }
 
@@ -160,7 +165,7 @@ void kernel_setup(uint32_t magic_number, mbinfo_t *info)
     if (info->flags & MMAP)
     {
         kprintf("mmap field is valid\n");
-        display_mmap_information(info);
+        // display_mmap_information(info);
     }
 
     initialize_and_load_gdt();
@@ -180,6 +185,13 @@ void kernel_setup(uint32_t magic_number, mbinfo_t *info)
     kprintf("Installed hardware handlers...\n");
 
     enable_interrupts();
+
+    while (1)
+    {
+        char buf[200];
+
+        keyboard_readline(buf, 200);
+    }
 
     kprintf("Spinning forever...\n");
 
